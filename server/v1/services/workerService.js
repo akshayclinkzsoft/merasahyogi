@@ -10,12 +10,7 @@ class workerService {
       try {
         const body = req.body;
 
-        if (!body.email) {
-          return reject({
-            code: CONFIG.ERROR_CODE,
-            message: CONFIG.ERR_MISSING_EMAIL,
-          });
-        }
+      
         if (!body.name) {
           return reject({
             code: CONFIG.ERROR_CODE,
@@ -40,17 +35,21 @@ class workerService {
           }
           body.location = cordinates
         }
+if(body.email){
 
-        const emailExist = await Worker.findOne({
-          email: body.email.toLowerCase(),
-          status: CONFIG.ACTIVE_STATUS,
-        })
-        if (emailExist) {
-          return reject({
-            code: CONFIG.ERROR_CODE,
-            message: CONFIG.ERR_EMAIL_ALREADY_TAKEN,
-          });
-        }
+  const emailExist = await Worker.findOne({
+    email: body.email.toLowerCase(),
+    status: CONFIG.ACTIVE_STATUS,
+  })
+  if (emailExist) {
+    return reject({
+      code: CONFIG.ERROR_CODE,
+      message: CONFIG.ERR_EMAIL_ALREADY_TAKEN,
+    });
+  }
+  
+}
+      
 
         const PhoneExist = await Worker.findOne({
           phoneNumber: body.phoneNumber,

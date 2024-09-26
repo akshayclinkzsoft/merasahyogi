@@ -11,12 +11,12 @@ class consumerService {
       try {
         const body = req.body;
 
-        if (!body.email) {
-          return reject({
-            code: CONFIG.ERROR_CODE,
-            message: CONFIG.ERR_MISSING_EMAIL,
-          });
-        }
+        // if (!body.email) {
+        //   return reject({
+        //     code: CONFIG.ERROR_CODE,
+        //     message: CONFIG.ERR_MISSING_EMAIL,
+        //   });
+        // }
         if (!body.name) {
           return reject({
             code: CONFIG.ERROR_CODE,
@@ -42,16 +42,22 @@ class consumerService {
           body.location = cordinates
         }
 
-        const emailExist = await Consumer.findOne({
-          email: body.email.toLowerCase(),
-          status: CONFIG.ACTIVE_STATUS,
-        })
-        if (emailExist) {
-          return reject({
-            code: CONFIG.ERROR_CODE,
-            message: CONFIG.ERR_EMAIL_ALREADY_TAKEN,
-          });
+
+        if(body.email){
+
+          const emailExist = await Consumer.findOne({
+            email: body.email.toLowerCase(),
+            status: CONFIG.ACTIVE_STATUS,
+          })
+          if (emailExist) {
+            return reject({
+              code: CONFIG.ERROR_CODE,
+              message: CONFIG.ERR_EMAIL_ALREADY_TAKEN,
+            });
+          }
+          
         }
+       
 
         const PhoneExist = await Consumer.findOne({
           phoneNumber: body.phoneNumber,
@@ -64,7 +70,7 @@ class consumerService {
           });
         }
 
-        let consumer = new Worker(body)
+        let consumer = new Consumer(body)
         let result = await consumer.save();
 
         var data = JSON.parse(JSON.stringify(result));
