@@ -81,7 +81,7 @@ class workerService {
         }
 
         let findOTP = await OTP.findOne({ phoneNumber: body.phoneNumber , type : 1 })
-        let otp = 234567
+        let otp = "2345"
 
         let result;
         if (findOTP) {
