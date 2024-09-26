@@ -53,6 +53,17 @@ class consumerService {
           });
         }
 
+        const PhoneExist = await Consumer.findOne({
+          phoneNumber: body.phoneNumber,
+          status: CONFIG.ACTIVE_STATUS,
+        })
+        if (PhoneExist) {
+          return reject({
+            code: CONFIG.ERROR_CODE,
+            message: CONFIG.ERR_PHONE_ALREADY_TAKEN,
+          });
+        }
+
         let consumer = new Worker(body)
         let result = await consumer.save();
 
