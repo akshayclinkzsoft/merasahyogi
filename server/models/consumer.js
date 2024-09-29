@@ -32,10 +32,7 @@ consumerSchema = new mongoose.Schema({
     profilePicture: {
         type: String
     },
-    dateOfBirth :{
-        type:String,
-        required :true
-    },
+ 
     permanentAddress :{
         type :String
     },
