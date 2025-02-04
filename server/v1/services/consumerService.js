@@ -4,6 +4,7 @@ const errorUtil = require("../../utils/errorHandler.js");
 const CONFIG = require("../../config/appConfig.js");
 const OTP = require("../../models/otp.js");
 const Consumer = require("../../models/consumer.js")
+const ConsumerRequest = require("../../models/consumerRequest.js")
 
 class consumerService {
   signUp(req, res) {
@@ -183,6 +184,79 @@ class consumerService {
       }
     })
   }
+
+
+consumerRequests(req, res) {
+  return new Promise(async function (resolve, reject) {
+    try {
+      let body = req.body;
+      if (!body.numberOfPerson) {
+        return reject({
+          code: CONFIG.ERROR_CODE,
+          message: CONFIG.ERR_NO_OF_PERSON_MISSING,
+        });
+      }
+      if (!body.type) {
+        return reject({
+          code: CONFIG.ERROR_CODE,
+          message: CONFIG.ERR_WORK_TYPE_MISSING,
+        });
+      }
+     else if (!body.date) {
+        return reject({
+          code: CONFIG.ERROR_CODE,
+          message: CONFIG.ERR_DATE_MISSING,
+        });
+      }
+      else if (!body.experience) {
+        return reject({
+          code: CONFIG.ERROR_CODE,
+          message: CONFIG.ERR_DATE_MISSING,
+        });
+      }
+      if (body.latitude && body.longitude) {
+        let cordinates = {
+          type: "Point",
+          coordinates: [parseFloat(body.longitude), parseFloat(body.latitude)]
+        }
+        body.location = cordinates
+      }
+      body.userId  = req.user._id
+      let consumerRequest = new ConsumerRequest(body)
+      let result = await consumerRequest.save();
+      return resolve({
+        code: CONFIG.SUCCESS_CODE,
+        message: CONFIG.CREATED_SUCCESS,
+        data: result,
+      });
+    } catch (err) {
+      return reject({ code: CONFIG.ERROR_CODE, message: err.message });
+    }
+  });
 }
 
+
+getconsumerRequests(req, res) {
+  return new Promise(async function (resolve, reject) {
+    try {
+      let result = await ConsumerRequest.aggregate([
+        { $match: {status :1 , userId : req.user._id} },       
+        { $sort: { createdAt: -1 } }, 
+       
+      ])
+      return resolve({
+        code: CONFIG.SUCCESS_CODE,
+        message:"",
+        data:result
+      });
+    } catch (err) {
+      return reject({ code: CONFIG.ERROR_CODE, message: err.message });
+    }
+  });
+}
+
+
+
+
+}
 module.exports = consumerService

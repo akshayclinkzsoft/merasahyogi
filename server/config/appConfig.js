@@ -30,6 +30,8 @@ let appConfig = {
 
     //user
 
+    CREATED_SUCCESS :"Created Successfully",
+
     ERR_EMAIL_ALREADY_TAKEN: 'ERR_EMAIL_ALREADY_TAKEN',
     ERR_PHONE_ALREADY_TAKEN: 'ERR_PHONE_ALREADY_TAKEN',
     USERID_NOT_CORRECT: 'USERID_NOT_CORRECT',
@@ -46,6 +48,11 @@ let appConfig = {
     LOGIN_SUCCSSFULLY :"LOGIN_SUCCESSFULLY",
     PLEASE_REGISTER :"PLEASE_REGISTER",
     ID_NOT_CORRECT: 'ID_NOT_CORRECT',
+
+    ERR_WORK_TYPE_MISSING :"Type Missing",
+    ERR_EXPERINCE_MISSING :"Experience Missing",
+    ERR_DATE_MISSING :"Date Missing",
+    ERR_NO_OF_PERSON_MISSING :"Number of Person Missing"
 
 
 

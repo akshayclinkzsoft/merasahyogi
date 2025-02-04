@@ -31,6 +31,24 @@ verifyNumber(req, res) {
     });
 }
 
+consumerRequest(req, res) {
+    consumerService.consumerRequests(req, res).then(result => {
+        return res.success(result.code, result.message, result?.data)
+    }).catch(error => {
+       // console.log('errr', error)
+        return res.reject(error.code ,error.message)
+    });
+}
+
+getconsumerRequests(req, res) {
+    consumerService.getconsumerRequests(req, res).then(result => {
+        return res.success(result.code, result.message, result?.data)
+    }).catch(error => {
+       // console.log('errr', error)
+        return res.reject(error.code ,error.message)
+    });
+}
+
 }
 
 module.exports = consumerController
